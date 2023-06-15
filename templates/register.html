@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+   Register
+{% endblock %}
+
+{% block main %}
+<form action="/register" method="post" class="d-flex flex-column align-items-center"> 
+    <div class="mb-3">
+       <label for="username" class="text-center">Username:</label>
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username"  name="username" placeholder="Username" type="text">
+    </div>
+
+      <div class="mb-3">
+        <label for="passwordField" class="text-center">Password:</label>
+        <input autocomplete="off" type="password" class="form-control mx-auto w-auto" name="password" id="passwordField" placeholder="Password">
+      </div>
+    
+      <div class="mb-3">
+        <label for="confirm" class="text-center">Confirm Password:</label>
+        <input autocomplete="off" type="password" class="form-control mx-auto w-auto" name="confirm" id="confirm" placeholder="Confirm Password">
+      </div>
+
+      <div class="mb-3">
+        <label for="FirstNameField" class="text-center">First Name:</label>
+        <input autocomplete="off" class="form-control mx-auto w-auto" name="firstname" id="FirstNameField" placeholder="First Name" type="text">
+      </div>
+
+      <div class="mb-3">
+        <label for="LastNameField" class="text-center">Last Name:</label>
+        <input autocomplete="off" class="form-control mx-auto w-auto" name="lastname" id="LastNameField" placeholder="Last Name" type="text">
+      </div>
+      <div class="mb-3">
+        <label class="text-center">Select Role:</label>
+        <div class="form-check text-center">
+          <input class="form-check-input" type="radio" name="role" id="supplier" value="Supplier" checked>
+          <label class="form-check-label" for="supplier">
+            Supplier
+          </label>
+        </div>
+        <div class="form-check text-center">
+          <input class="form-check-input" type="radio" name="role" id="customer" value="Customer">
+          <label class="form-check-label" for="customer">
+            Customer
+          </label>
+        </div>
+      </div>
+      
+      <div class="text-center">
+        <button class="btn btn-primary" type="submit">Register</button>
+      </div>
+      
+</form>
+{% endblock %}

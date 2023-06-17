@@ -39,6 +39,7 @@ def register():
         role = request.form.get("role")
         usernameCheck = db.execute("SELECT * FROM users WHERE username = ?;", username)
         
+        #Couple of checks on the fields if they are empty
         if not username:
             flash("Please provide a username")
             return redirect("/register")
@@ -77,16 +78,20 @@ def login():
       username = request.form.get("username")
       password = request.form.get("password")
     
+      #Check if user doesn't input anything
       if username == "" or password == "":
           flash("Provide username or password")
           return redirect("/login")
       
+      #retrive user data to check if there's a user with the provided username
       userdata = db.execute("SELECT * FROM users WHERE username = ?", username)
       if len(userdata) == 0:
           flash("Username is incorrect")
           return redirect("/login")
       
+
       password_hash = userdata[0]["PWhash"]
+      #Checks the stores hash value in the table aganist the password provided
       if check_password_hash(password_hash, password) is False:
           flash("wrong password")
           return redirect("/login")

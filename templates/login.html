@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block main %}
+<form action="/login" method="post" class="d-flex flex-column align-items-center">
+  <div>
+   <label for="username" class="mb-3">Username:</label>
+     <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username"  name="username" placeholder="Username" type="text">
+  </div>
+  <div class="mb-3">
+    <label for="passwordField">Password:</label>
+    <input type="password" class="form-control" name="password" id="passwordField" placeholder="password">
+  </div>
+  <div class="text-center">
+    <button class="btn btn-primary" type="submit">Login</button>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,89 @@
+/* Overall page styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Header styles */
+  header {
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #333;
+  }
+  
+  /* Navigation menu styles */
+  nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  nav ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  
+  nav ul li {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px;
+  }
+  
+  /* Main content styles */
+  main {
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  p {
+    line-height: 1.5;
+    color: #555;
+  }
+  
+  /* Footer styles */
+  footer {
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+    color: #555;
+    font-size: 14px;
+  }
+  /* styles.css */
+
+  .flash-message {
+    background-color: #f2dede !important;
+    color: #a94442 !important;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    width:30%;
+    margin: auto;
+    /* Add more styles as desired */
+  }
+ .flash-message.error {
+  
+  background-color: #f2dede !important;
+  color: #a94442 !important;
+}  
+.flash-message.success {
+  background-color: #39ff5a !important;
+    color: #32CD32 !important;
+}

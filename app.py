@@ -41,24 +41,24 @@ def register():
         
         #Couple of checks on the fields if they are empty
         if not username:
-            flash("Please provide a username")
+            flash("Please provide a username", "error")
             return redirect("/register")
         
         elif not password:
-            flash("Please provide a password")
+            flash("Please provide a password", "error")
             return redirect("/register")
 
         elif not firstName:
-            flash("Please provide your First Name")
+            flash("Please provide your First Name", "error")
             return redirect("/register")
 
         
         elif len(usernameCheck) == 1:
-            flash("Username already taken")
+            flash("Username already taken", "error")
             return redirect("/register")
 
         elif password != confirm:
-            flash("Passwords do not match")
+            flash("Passwords do not match", "error")
             return redirect("/register")
 
         else:
@@ -80,32 +80,35 @@ def login():
     
       #Check if user doesn't input anything
       if username == "" or password == "":
-          flash("Provide username or password")
+          flash("Provide username or password", "error")
           return redirect("/login")
       
       #retrive user data to check if there's a user with the provided username
       userdata = db.execute("SELECT * FROM users WHERE username = ?", username)
       if len(userdata) == 0:
-          flash("Username is incorrect")
+          flash("Username is incorrect", "error")
           return redirect("/login")
       
 
       password_hash = userdata[0]["PWhash"]
       #Checks the stores hash value in the table aganist the password provided
       if check_password_hash(password_hash, password) is False:
-          flash("wrong password")
+          flash("wrong password", "error")
           return redirect("/login")
       else:
           session["userid"] = userdata[0]["id"]
-          flash("Successful login!")
+          flash("Successful login!", "success")
           return redirect("/")
+    
       
+       
     else:
         return render_template("login.html")
 
 @app.route('/logout')
 def logout():
     session.clear()
+
     return redirect("/login")
     
     

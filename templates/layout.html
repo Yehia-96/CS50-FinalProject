@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ItsHomieFood {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v={{ V01 }}">
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -19,10 +20,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   
 </head>
-<body>
+<body id="body">
     
     <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #BEBEBE;">
-        <a class="navbar-brand" href="#">ItsHomieFood</a>
+         <a class="navbar-brand" href="#">ItsHomieFood</a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation"></button>
         
@@ -71,16 +72,25 @@
         </div>
             
     </nav>
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
+      <div class="flash-messages">
         <ul class="flashes">
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
+          {% for category, message in messages %}
+              {% if category == "error" %}
+                 <li class="flash-message error">{{ message }}</li>
+              {% elif category == "success" %}
+                 <li class="flash-message success">{{ message }}</li>
+              {% else %}
+                 <li class="flash-message">{{ message }}</li>
+               {% endif %}
+          {% endfor %}
         </ul>
+      </div>
     {% endif %}
-    {% endwith %}
-
+  {% endwith %}
+  
+    
     <main class="container-fluid py-5 text-center">
         {% block main %}{% endblock %}
     </main>

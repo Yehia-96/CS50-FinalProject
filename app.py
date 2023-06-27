@@ -111,7 +111,14 @@ def logout():
 
     return redirect("/login")
     
+@app.route('/breakfast', methods = ["POST", "GET"])
+def method_name():
+    if request.method == "GET":
+         return render_template("breakfast.html")
     
+
+
+     
 
 
 

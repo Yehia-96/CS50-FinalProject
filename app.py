@@ -73,7 +73,7 @@ def register():
 
 @app.route("/login", methods = ["GET", "POST"])
 def login():
-    session.clear()
+
     if request.method == "POST":
       username = request.form.get("username")
       password = request.form.get("password")
@@ -93,7 +93,7 @@ def login():
       password_hash = userdata[0]["PWhash"]
       #Checks the stores hash value in the table aganist the password provided
       if check_password_hash(password_hash, password) is False:
-          flash("wrong password", "error")
+          flash("Incorrect Password", "error")
           return redirect("/login")
       else:
           session["userid"] = userdata[0]["id"]

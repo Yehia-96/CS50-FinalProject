@@ -1,5 +1,39 @@
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+  
+}
+#body{
+  background-color: rgb(250, 143, 143);
+  padding: 10px;
+}
+
+.middlecolumn {
+  width: 80%; 
+  margin: 0 auto; 
+  display: flex;
+  align-items: center;
+  flex-direction: column;}
+
+.middlecolumn .img {
+  background-color: grey;
+  padding: 20px; 
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.content {
+  width: 60%; 
+  background-color:#bebebe;
+  margin-top: 1%;
+  padding: 20px;
+  text-align: left;
+}
+
  
-  .flash-message {
+.flash-message {
     background-color: #f2dede !important;
     color: #a94442 !important;
     padding: 10px;

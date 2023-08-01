@@ -5,7 +5,7 @@
   
 }
 #body{
-  background-color: rgb(250, 143, 143);
+  background-color: rgb(177, 49, 49);
   padding: 10px;
 }
 
@@ -32,7 +32,9 @@
   text-align: left;
 }
 
- 
+ #errors{
+  text-align: center;
+ }
 .flash-message {
     background-color: #f2dede !important;
     color: #a94442 !important;

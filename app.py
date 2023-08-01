@@ -2,6 +2,7 @@ from flask import Flask, request, session, render_template, flash, redirect
 from cs50 import SQL
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
+from func import apology, UploadIMG
 
 app = Flask(__name__)
 app.secret_key = "secret_key"
@@ -114,7 +115,14 @@ def logout():
 @app.route('/breakfast', methods = ["POST", "GET"])
 def method_name():
     if request.method == "GET":
-         return render_template("breakfast.html")
+         filter = "Breakfast"
+         breakfast = db.execute("SELECT * FROM food WHERE Category = ?", filter)
+         if len(breakfast) == 0:
+             return apology("No breakfast data")
+         
+         return render_template("breakfast.html", breakfast = breakfast)
+    else:
+        
     
 
 

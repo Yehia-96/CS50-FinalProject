@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ category.capitalize() }}
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="middlecolumn">
+        {% for item in meals %}
+         <div class="content">
+            
+            <h1 class="display">{{ item["Title"] }}</h1>
+
+            <div class="img" style="height:200px;">{{ item["img_path"] }}</div>
+            <p>{{ item["Description"] }}</p>
+            <p>Total Price: {{ item["Price"] }}</p>
+            <form action="/meal/{{ category }}" method="post">
+                <input type="hidden" name="item_id" value="{{ item['ID'] }}">
+                <button type="submit" class="btn btn-primary">Order!</button>
+            </form>
+            
+          </div>
+        {% endfor %}
+       
+    </div>
+</div>
+{% endblock %}

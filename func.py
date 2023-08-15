@@ -1,7 +1,8 @@
 from werkzeug.utils import secure_filename
 from flask import Flask, request, session, render_template, flash, redirect
+from cs50 import SQL
 
-from app import db
+db = SQL("sqlite:///foodie.db")
 
 #Helps with storing the uploaded img's path 
 def UploadIMG(file, foodid):

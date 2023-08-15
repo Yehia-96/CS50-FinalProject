@@ -112,18 +112,22 @@ def logout():
 
     return redirect("/login")
     
-@app.route('/breakfast', methods = ["POST", "GET"])
-def method_name():
+@app.route('/meal/<category>', methods=["GET", "POST"])
+def show_meal(category):
     if request.method == "GET":
-         filter = "Breakfast"
-         breakfast = db.execute("SELECT * FROM food WHERE Category = ?", filter)
-         if len(breakfast) == 0:
-             return apology("No breakfast data")
-         
-         return render_template("breakfast.html", breakfast = breakfast)
+        meals = db.execute("SELECT * FROM food WHERE Category = ?", category)
+        if len(meals) == 0:
+            return apology(f"No {category} data")
+        return render_template("meal.html", meals=meals, category=category)
     else:
-        
-    
+        itemIDToAdd = request.form.get("item_id")
+        itemSellerIDToAdd = db.execute("SELECT supplierid FROM food WHERE id = ?", item_id_to_add)
+        itemCustomerIDToAdd = session["userid"]
+        db.execute("INSERT INTO orders (foodid, customerid, supplierid) VALUES(?,?,?)",
+                   itemIDToAdd, itemCustomerIDToAdd, itemSellerIDToAdd)
+
+
+ 
 
 
      

@@ -12,11 +12,11 @@
             
             <h1 class="display">{{ item["Title"] }}</h1>
 
-            <div class="img" style="height:200px;">{{ item["img_path"] }}</div>
+            <img src="{{ item['img_path'] }}" alt="{{ item['Title'] }}" style="height: 200px;">
             <p>{{ item["Description"] }}</p>
             <p>Total Price: {{ item["Price"] }}</p>
             <form action="/meal/{{ category }}" method="post">
-                <input type="hidden" name="item_id" value="{{ item['ID'] }}">
+                <input type="hidden" name="item_id" value="{{ item['id'] }}">
                 <button type="submit" class="btn btn-primary">Order!</button>
             </form>
             

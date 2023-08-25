@@ -7,6 +7,9 @@ from func import apology, UploadIMG
 app = Flask(__name__)
 app.secret_key = "secret_key"
 
+app.static_url_path = '/static'
+app.static_folder = 'static'
+
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -99,6 +102,11 @@ def login():
       else:
           session["userid"] = userdata[0]["id"]
           flash("Successful login!", "success")
+
+          supplier_info = db.execute("SELECT * FROM supplier WHERE usersid = ?", session["userid"])
+
+          if not supplier_info:
+                db.execute("INSERT INTO supplier (usersid) VALUES (?)", session["userid"])
           return redirect("/")
     
       
@@ -121,14 +129,55 @@ def show_meal(category):
         return render_template("meal.html", meals=meals, category=category)
     else:
         itemIDToAdd = request.form.get("item_id")
-        itemSellerIDToAdd = db.execute("SELECT supplierid FROM food WHERE id = ?", item_id_to_add)
+        itemSellerIDToAdd = db.execute("SELECT supplierid FROM food WHERE id = ?", itemIDToAdd)
         itemCustomerIDToAdd = session["userid"]
         db.execute("INSERT INTO orders (foodid, customerid, supplierid) VALUES(?,?,?)",
                    itemIDToAdd, itemCustomerIDToAdd, itemSellerIDToAdd)
+        return redirect("/meal/<category>")
 
+@app.route('/profile', methods=["GET", "POST"])
+def show_profile():
+    if request.method == "GET":
+        meals = db.execute("SELECT * FROM food WHERE supplierid = ?", session["userid"])
+       
+        return render_template("profile.html", meals=meals)
+    else:
+        itemToDelete = request.form.get("item_id")
+        db.execute("DELETE FROM food WHERE id = ?", itemToDelete)
+        return redirect("/profile")
 
- 
+@app.route('/newitem', methods=["GET", "POST"])
+def newitem():
+    if request.method == "GET":
+        return render_template("newitem.html")
+    else:
+        itemTitle = request.form.get("title")
+        itemDescription = request.form.get("description")
+        itemPrice = request.form.get("price")
+        itemImg = request.files["image"]
+        itemCategory = request.form.get("category")
+        supplierId = db.execute("SELECT id FROM supplier WHERE usersid = ?", session["userid"])
 
+        if supplierId:
+            supplierId = supplierId[0]["id"]
+        else:
+            
+            db.execute("INSERT INTO supplier (usersid) VALUES (?)", session["userid"])
+            supplierId = db.execute("SELECT last_insert_rowid() AS id")[0]["id"]
+
+       
+        itemAdd = db.execute("INSERT INTO food (Title, Description, Price, Category, supplierid) VALUES (?, ?, ?, ?, ?)",
+                   itemTitle, itemDescription, itemPrice, itemCategory, supplierId)
+
+        
+        newItemId = db.execute("SELECT id FROM food WHERE Title = ? AND Description = ?", itemTitle, itemDescription)[0]["id"]
+
+        
+        # Debugging print statement
+        print("Newly inserted item ID:", newItemId)
+        print(newItemId)
+        UploadIMG(itemImg, newItemId)
+        return redirect("/profile")
 
      
 

@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    New Item
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="middlecolumn">
+       <form action="/newitem" method="post" enctype="multipart/form-data"        class="modern-form">
+         <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" class="form-control" required>
+         </div>
+         <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="5" maxlength="500" required></textarea>
+         </div>
+         <div class="form-group">
+             <label for="price">Price (EUR)</label>
+             <input type="number" id="price" name="price" class="form-control" step="0.01" min="0" required>
+         </div>
+         <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="category" class="form-control" required>
+               <option value="breakfast">Breakfast</option>
+               <option value="lunch">Lunch</option>
+               <option value="dinner">Dinner</option>
+               <option value="dessert">Dessert</option>
+            </select>
+        </div>
+         <div class="form-group">
+             <label for="image">Image</label>
+             <input type="file" id="image" name="image" accept="image/*" class="form-control-file" required>
+         </div>
+         <button type="submit" class="btn btn-primary">Add Item</button>
+      
+   </form>
+ </div>
+</div>
+{% endblock %}

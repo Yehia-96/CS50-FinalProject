@@ -14,8 +14,8 @@
 
             <img src="{{ item['img_path'] }}" alt="{{ item['Title'] }}" style="height: 200px;">
             <p>{{ item["Description"] }}</p>
-            <p>Total Price: {{ item["Price"] }}</p>
-            <form action="/meal/{{ category }}" method="post">
+            <p>Total Price: {{ ItConverts(item["Price"]) }}</p>
+            <form action="/orders" method="post">
                 <input type="hidden" name="item_id" value="{{ item['id'] }}">
                 <button type="submit" class="btn btn-primary">Order!</button>
             </form>

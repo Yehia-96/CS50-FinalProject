@@ -2,7 +2,7 @@ from flask import Flask, request, session, render_template, flash, redirect
 from cs50 import SQL
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from func import apology, UploadIMG
+from func import apology, UploadIMG, ItConverts
 
 app = Flask(__name__)
 app.secret_key = "secret_key"
@@ -102,7 +102,7 @@ def login():
       else:
           session["userid"] = userdata[0]["id"]
           flash("Successful login!", "success")
-
+          session["userRole"] = userdata[0]["Role"]
           supplier_info = db.execute("SELECT * FROM supplier WHERE usersid = ?", session["userid"])
 
           if not supplier_info:
@@ -126,7 +126,7 @@ def show_meal(category):
         meals = db.execute("SELECT * FROM food WHERE Category = ?", category)
         if len(meals) == 0:
             return apology(f"No {category} data")
-        return render_template("meal.html", meals=meals, category=category)
+        return render_template("meal.html", meals=meals, category=category, ItConverts=ItConverts)
     else:
         itemIDToAdd = request.form.get("item_id")
         itemSellerIDToAdd = db.execute("SELECT supplierid FROM food WHERE id = ?", itemIDToAdd)
@@ -138,8 +138,8 @@ def show_meal(category):
 @app.route('/profile', methods=["GET", "POST"])
 def show_profile():
     if request.method == "GET":
-        meals = db.execute("SELECT * FROM food WHERE supplierid = ?", session["userid"])
-       
+        supplier_id = db.execute("SELECT id FROM supplier WHERE usersid = ?", session["userid"])[0]["id"]
+        meals = db.execute("SELECT * FROM food WHERE supplierid = ?", supplier_id)
         return render_template("profile.html", meals=meals)
     else:
         itemToDelete = request.form.get("item_id")
@@ -179,7 +179,24 @@ def newitem():
         UploadIMG(itemImg, newItemId)
         return redirect("/profile")
 
-     
+@app.route('/orders', methods = ["GET", "POST"])
+def add_order():
 
+    if request.method == "POST":
+        itemId = request.form.get("item_id")
+        itemInfo = db.execute("SELECT * FROM food WHERE id = ?", itemId)
+        db.execute("INSERT INTO (foodid, customerid, supplierid) VALUES (?, ?, ?)", itemId, session["userid"], itemInfo[0]["supplierid"])
+        return redirect("/orders")
+    else:
+        currentOrders = db.execute("SELECT * FROM orders JOIN food ON orders.foodid = food.id WHERE orders.Status = 'Not Ready'")
 
+        return render_template("orders.html", currentOrders = currentOrders)
+    
+@app.route('/orders_status', methods = ["POST"])
+def method_name():
+    
+    itemId = request.form.get("item_id")
+    db.execute("UPDATE orders SET Status = 'Ready' WHERE id = ?", itemId)
+    return redirect("/orders")
+    
 

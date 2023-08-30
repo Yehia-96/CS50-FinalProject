@@ -5,13 +5,16 @@
 {% endblock %}
 
 {% block main %}
+{% if session["userRole"] == "Supplier" %}
 <div class="row">
-    <div class="leftcolumn" onclick="location.href='/current_orders.html'">
+    <div class="leftcolumn">
         <div class="item">
-            Menu
+            <a href="/profile">Menu</a>
         </div>
-        <div class="item"onclick="location.href='/current_orders.html'">Current orders</div>
-        
+        <div class="item">
+            <a href="/orders">Current orders</a>
+        </div>
+    </div>
     </div>
     <div class="middlecolumn">
         <form action="/newitem" method="get">
@@ -39,4 +42,17 @@
 
 
 </div>
+{% else %}
+<div class="row">
+    <div class="row">
+        <div class="leftcolumn">
+            <div class="item">
+                <a href="/history">History</a>
+            </div>
+            <div class="item">
+                <a href="/orders">Current orders</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
 {% endblock %}

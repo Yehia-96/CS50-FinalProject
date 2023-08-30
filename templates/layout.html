@@ -36,6 +36,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/profile">Profile</a>
                 </li>
+                {% if session["userRole"] == "Customer" %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
                     <div class="dropdown-menu" aria-labelledby="dropdownId">
@@ -43,10 +44,10 @@
                         <a class="dropdown-item" href="/meal/lunch">Lunch</a>
                         <a class="dropdown-item" href="/meal/dinner">Dinner</a>
                         <a class="dropdown-item" href="/meal/desert">Desert</a>
-                        
-
                     </div>
                 </li>
+                {% endif %}
+               
             </ul>
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav my-2 my-lg-0">

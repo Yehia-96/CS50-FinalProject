@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Orders
+{% endblock %}
+
+{% block main %}
+{% if session["userRole"] == "Supplier" %}
+<div class="row">
+    <div class="leftcolumn" onclick="location.href='/profile'">
+        <div class="item">
+            Menu
+        </div>
+        <div class="item"onclick="location.href='/orders'">Current orders</div>
+        {% for item in currentOrders %}
+        {% if item["Status"] == "Not Ready" %}
+        <div class="content">
+           
+           <h1 class="display">{{ item["Title"] }}</h1>
+
+           <div class="img" style="height:200px;">{{ item["img_path"] }}</div>
+           <p>{{ item["Description"] }}</p>
+           
+           <p>Status: {{ item["Status"] }}</p>
+           
+           <form action="/orders_status" method="post">
+               <input type="hidden" name="item_id" value="{{ item['id'] }}">
+               <button type="submit" class="btn btn-danger">Ready</button>
+           </form>
+           
+         </div>
+         {% endif %}
+       {% endfor %}
+        {% else %}
+<div class="row">
+    <div class="leftcolumn" onclick="location.href='/history'">
+        <div class="item">
+            History
+        </div>
+        <div class="item"onclick="location.href='/orders'">Current orders</div>
+        {% for item in currentOrders %}
+        {% if item["Status"] == "Not Ready" %}
+        <div class="content">
+           
+           <h1 class="display">{{ item["Title"] }}</h1>
+
+           <div class="img" style="height:200px;">{{ item["img_path"] }}</div>
+           <p>{{ item["Description"] }}</p>
+           <p>Status: {{ item["Status"] }}</p>
+         </div>
+       {% endif %}
+       {% endfor %}
+
+        
+    </div>
+{% endif %}
+{% endblock %}

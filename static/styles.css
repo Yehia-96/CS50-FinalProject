@@ -1,35 +1,33 @@
-.row::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
+/* Background color for the body */
 #body {
-  background-color: rgb(177, 49, 49);
+  background-color: #FFD700; /* Gold */
   padding: 10px;
 }
 
+/* Background color for the left column */
 .leftcolumn {
-  background-color: #bebebe;
+  background-color: #F4A460; /* Sandy Brown */
   padding: 20px;
   margin-left: 15px;
-  border-radius: 10px; 
+  border-radius: 10px;
   position: absolute;
-  top: 110px; 
-  left: 20px; 
+  top: 110px;
+  left: 20px;
 }
 
+/* Background color for items in the left column */
 .leftcolumn .item {
   padding: 15px 20px;
   border: none;
-  border-radius: 20px; 
+  border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 100%; 
-  text-align: left; 
+  width: 100%;
+  text-align: left;
   margin-bottom: 5px;
 }
 
+/* Background color for the middle column */
 .middlecolumn {
   width: 80%;
   margin: 0 auto;
@@ -38,43 +36,41 @@
   flex-direction: column;
 }
 
+/* Background color for the image section in the middle column */
 .middlecolumn .img {
-  background-color: grey;
+  background-color: #D2691E; /* Chocolate */
   padding: 20px;
   margin-top: 20px;
   margin-bottom: 20px;
   width: 100%;
 }
 
+/* Background color for the content section */
 .content {
   width: 60%;
-  background-color: #bebebe;
+  background-color: #F4A460; /* Sandy Brown */
   margin-top: 1%;
   padding: 20px;
   text-align: left;
 }
 
-#errors {
-  text-align: center;
-}
-
+/* Background color for flash messages */
 .flash-message {
-  background-color: #f2dede !important;
-  color: #a94442 !important;
+  background-color: #FF6347; /* Tomato */
+  color: #FFF;
   padding: 10px;
   border-radius: 4px;
   text-align: center;
   width: 30%;
   margin: auto;
-  /* Add more styles as desired */
 }
 
+/* Background color for error flash messages */
 .flash-message.error {
-  background-color: #f2dede !important;
-  color: #a94442 !important;
+  background-color: #B22222; /* Fire Brick */
 }
 
+/* Background color for success flash messages */
 .flash-message.success {
-  background-color: #39ff5a !important;
-  color: #32CD32 !important;
+  background-color: #32CD32; /* Lime Green */
 }

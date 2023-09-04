@@ -26,7 +26,9 @@ def after_request(response):
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    rotating_images = ["placeholderpath1.jpg","placeholderpath2.jpg","placeholderpath3.jpg"]
+
+    return render_template("index.html", images=rotating_images)
 
 @app.route("/register", methods = ["GET", "POST"])
 def register():
@@ -199,4 +201,8 @@ def method_name():
     db.execute("UPDATE orders SET Status = 'Ready' WHERE id = ?", itemId)
     return redirect("/orders")
     
-
+@app.route('/history', methods = ["POST"])
+def show_history():
+    
+    history = db.execute("SELECT * FROM orders WHERE customerid = ?", session["userid"])
+    return render_template("history.html", history=history)

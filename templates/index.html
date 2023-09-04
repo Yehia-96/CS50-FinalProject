@@ -5,5 +5,18 @@
 {% endblock %}
 
 {% block main %}
-<div>Main</div>
+<div class="container">
+    <h1>Rotating Photo Slider</h1>
+
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        
+        <div class="carousel-inner">
+            {% for image in images %}
+            <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
+                <img src="{{ image }}" alt="Image {{ loop.index }}">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}

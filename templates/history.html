@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+{% if session["userRole"] == "Customer" %}
+<div class="row">
+    <div class="middlecolumn">
+        {% for item in meals %}
+         <div class="content">
+            
+            <h1 class="display">{{ item["Title"] }}</h1>
+
+            <img src="{{ item['img_path'] }}" alt="{{ item['Title'] }}" style="height: 200px;">
+            <p>{{ item["Description"] }}</p>
+            <p>Total Price: {{ ItConverts(item["Price"]) }}</p>
+            <p>Status: {{ history["Status"] }}</p>
+            
+          </div>
+        {% endfor %}
+       
+    </div>
+</div>
+ 
+{% endif %}
+{% endblock %}

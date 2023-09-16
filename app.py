@@ -105,10 +105,20 @@ def login():
           session["userid"] = userdata[0]["id"]
           flash("Successful login!", "success")
           session["userRole"] = userdata[0]["Role"]
-          supplier_info = db.execute("SELECT * FROM supplier WHERE usersid = ?", session["userid"])
+          if userdata[0]["Role"] == "Supplier":
+              
+             supplier_info = db.execute("SELECT * FROM supplier WHERE usersid = ?", session["userid"])
 
-          if not supplier_info:
+             if not supplier_info:
+
                 db.execute("INSERT INTO supplier (usersid) VALUES (?)", session["userid"])
+          else:
+              customer_info = db.execute("SELECT * FROM customer WHERE userid = ?", session["userid"])
+
+              if not customer_info:
+                                  
+                db.execute("INSERT INTO customer (userid) VALUES (?)", session["userid"])
+
           return redirect("/")
     
       
@@ -140,6 +150,7 @@ def show_meal(category):
 @app.route('/profile', methods=["GET", "POST"])
 def show_profile():
     if request.method == "GET":
+        
         supplier_id = db.execute("SELECT id FROM supplier WHERE usersid = ?", session["userid"])[0]["id"]
         meals = db.execute("SELECT * FROM food WHERE supplierid = ?", supplier_id)
         return render_template("profile.html", meals=meals)
@@ -181,18 +192,37 @@ def newitem():
         UploadIMG(itemImg, newItemId)
         return redirect("/profile")
 
-@app.route('/orders', methods = ["GET", "POST"])
+@app.route('/orders', methods=["GET", "POST"])
 def add_order():
-
     if request.method == "POST":
         itemId = request.form.get("item_id")
-        itemInfo = db.execute("SELECT * FROM food WHERE id = ?", itemId)
-        db.execute("INSERT INTO (foodid, customerid, supplierid) VALUES (?, ?, ?)", itemId, session["userid"], itemInfo[0]["supplierid"])
+        userId = session.get("userid")
+        food_item = db.execute("SELECT * FROM food WHERE id = ?", itemId)
+        if not food_item:
+            flash("Invalid food item selected.")
+            return redirect("/orders")
+
+       
+        supplierId = food_item[0]["supplierid"]
+        supplier = db.execute("SELECT * FROM supplier WHERE id = ?", supplierId)
+        if not supplier:
+            flash("Invalid supplier.")
+            return redirect("/orders")
+        
+        customer = db.execute("SELECT * FROM customer WHERE userid = ?", userId)
+        if not customer:
+            flash("Invalid user.")
+            return redirect("/orders")
+
+        db.execute("INSERT INTO orders (foodid, customerid, supplierid) VALUES (?, ?, ?)", itemId, customer[0]["id"], supplierId)
+        flash("Order placed successfully.")
         return redirect("/orders")
     else:
-        currentOrders = db.execute("SELECT * FROM orders JOIN food ON orders.foodid = food.id WHERE orders.Status = 'Not Ready'")
 
-        return render_template("orders.html", currentOrders = currentOrders)
+        customer = db.execute("SELECT * FROM customer WHERE userid = ?", session["userid"])
+        currentOrders = db.execute("SELECT * FROM orders JOIN food ON orders.foodid = food.id WHERE orders.Status = 'Not Ready' AND orders.customerid = ?", customer[0]["id"])
+        return render_template("orders.html", currentOrders=currentOrders)
+
     
 @app.route('/orders_status', methods = ["POST"])
 def method_name():
@@ -201,8 +231,10 @@ def method_name():
     db.execute("UPDATE orders SET Status = 'Ready' WHERE id = ?", itemId)
     return redirect("/orders")
     
-@app.route('/history', methods = ["POST"])
+@app.route('/history')
 def show_history():
-    
-    history = db.execute("SELECT * FROM orders WHERE customerid = ?", session["userid"])
-    return render_template("history.html", history=history)
+    if session["userRole"] == "Customer":
+        history = db.execute("SELECT food.*, orders.Status FROM orders JOIN food ON orders.foodid = food.id WHERE orders.customerid = ? AND orders.Status = 'Ready'", session["userid"])
+        return render_template("history.html", history=history)
+    else:
+        return apology("Access denied")

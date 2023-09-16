@@ -33,10 +33,15 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
+                {% if session["userRole"] == "Supplier" %}
                 <li class="nav-item">
                     <a class="nav-link" href="/profile">Profile</a>
                 </li>
+                {% endif %}
                 {% if session["userRole"] == "Customer" %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/orders">Orders</a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
                     <div class="dropdown-menu" aria-labelledby="dropdownId">

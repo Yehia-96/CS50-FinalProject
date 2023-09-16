@@ -6,7 +6,12 @@
 
 {% block main %}
 {% if session["userRole"] == "Customer" %}
-<div class="row">
+<div class="container">
+    <div class="leftcolumn">
+      
+        <div class="item" onclick="location.href='/history'">History</div>
+        <div class="item" onclick="location.href='/orders'">Current orders</div>
+    </div>
     <div class="middlecolumn">
         {% for item in meals %}
          <div class="content">

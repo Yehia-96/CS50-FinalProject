@@ -32,26 +32,25 @@ Orders
          {% endif %}
        {% endfor %}
         {% else %}
-<div class="row">
-    <div class="leftcolumn" onclick="location.href='/history'">
-        <div class="item">
-            History
+        <div class="container">
+            <div class="leftcolumn">
+                <!-- Left column content -->
+                <div class="item" onclick="location.href='/history'">History</div>
+                <div class="item" onclick="location.href='/orders'">Current orders</div>
+            </div>
+            <div class="middlecolumn">
+                <!-- Middle column content -->
+                {% for item in currentOrders %}
+                {% if item["Status"] == "Not Ready" %}
+                <div class="content">
+                    <h1 class="display">{{ item["Title"] }}</h1>
+                    <div class="img" style="height: 200px;">{{ item["img_path"] }}</div>
+                    <p>{{ item["Description"] }}</p>
+                    <p>Status: {{ item["Status"] }}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
         </div>
-        <div class="item"onclick="location.href='/orders'">Current orders</div>
-        {% for item in currentOrders %}
-        {% if item["Status"] == "Not Ready" %}
-        <div class="content">
-           
-           <h1 class="display">{{ item["Title"] }}</h1>
-
-           <div class="img" style="height:200px;">{{ item["img_path"] }}</div>
-           <p>{{ item["Description"] }}</p>
-           <p>Status: {{ item["Status"] }}</p>
-         </div>
-       {% endif %}
-       {% endfor %}
-
-        
-    </div>
-{% endif %}
-{% endblock %}
+        {% endif %}
+        {% endblock %}

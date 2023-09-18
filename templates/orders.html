@@ -18,7 +18,8 @@ Orders
            
            <h1 class="display">{{ item["Title"] }}</h1>
 
-           <div class="img" style="height:200px;">{{ item["img_path"] }}</div>
+           <img src="{{ item['img_path'] }}" alt="{{ item['Title'] }}" style="height: 300px; width: auto; display: block; margin: 0 auto;">
+           
            <p>{{ item["Description"] }}</p>
            
            <p>Status: {{ item["Status"] }}</p>
@@ -34,17 +35,17 @@ Orders
         {% else %}
         <div class="container">
             <div class="leftcolumn">
-                <!-- Left column content -->
+              
                 <div class="item" onclick="location.href='/history'">History</div>
                 <div class="item" onclick="location.href='/orders'">Current orders</div>
             </div>
             <div class="middlecolumn">
-                <!-- Middle column content -->
+              
                 {% for item in currentOrders %}
                 {% if item["Status"] == "Not Ready" %}
                 <div class="content">
                     <h1 class="display">{{ item["Title"] }}</h1>
-                    <div class="img" style="height: 200px;">{{ item["img_path"] }}</div>
+                    <img src="{{ item['img_path'] }}" alt="{{ item['Title'] }}" style="height: 300px; width: auto; display: block; margin: 0 auto;">
                     <p>{{ item["Description"] }}</p>
                     <p>Status: {{ item["Status"] }}</p>
                 </div>

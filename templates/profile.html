@@ -25,9 +25,9 @@
            
            <h1 class="display">{{ item["Title"] }}</h1>
 
-           <div class="img" style="height:200px;">{{ item["img_path"] }}</div>
+           <img src="{{ item['img_path'] }}" alt="{{ item['Title'] }}" style="height: 300px; width: auto; display: block; margin: 0 auto;">
            <p>{{ item["Description"] }}</p>
-           <p>Total Price: {{ item["Price"] }}</p>
+           <p>Total Price: {{ ItConverts(item["Price"]) }}</p>
            <form action="/profile" method="post">
                <input type="hidden" name="item_id" value="{{ item['id'] }}">
                <button type="submit" class="btn btn-danger">Delete Entry</button>

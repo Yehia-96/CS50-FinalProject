@@ -132,12 +132,13 @@ def logout():
 
     return redirect("/login")
     
-@app.route('/meal/<category>', methods=["GET", "POST"])
+@app.route('/<category>', methods=["GET", "POST"])
 def show_meal(category):
     if request.method == "GET":
         meals = db.execute("SELECT * FROM food WHERE Category = ?", category)
         if len(meals) == 0:
             return apology(f"No {category} data")
+       
         return render_template("meal.html", meals=meals, category=category, ItConverts=ItConverts)
     else:
         itemIDToAdd = request.form.get("item_id")
@@ -145,7 +146,7 @@ def show_meal(category):
         itemCustomerIDToAdd = session["userid"]
         db.execute("INSERT INTO orders (foodid, customerid, supplierid) VALUES(?,?,?)",
                    itemIDToAdd, itemCustomerIDToAdd, itemSellerIDToAdd)
-        return redirect("/meal/<category>")
+        return redirect(f"/meal/{category}")
 
 @app.route('/profile', methods=["GET", "POST"])
 def show_profile():
@@ -153,7 +154,7 @@ def show_profile():
         
         supplier_id = db.execute("SELECT id FROM supplier WHERE usersid = ?", session["userid"])[0]["id"]
         meals = db.execute("SELECT * FROM food WHERE supplierid = ?", supplier_id)
-        return render_template("profile.html", meals=meals)
+        return render_template("profile.html", meals=meals, ItConverts = ItConverts)
     else:
         itemToDelete = request.form.get("item_id")
         db.execute("DELETE FROM food WHERE id = ?", itemToDelete)

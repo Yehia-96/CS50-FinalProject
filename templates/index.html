@@ -6,14 +6,14 @@
 
 {% block main %}
 <div class="container">
-    <h1>Rotating Photo Slider</h1>
+    <h1>Welcome to ItsHomieFood!</h1>
 
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         
         <div class="carousel-inner">
-            {% for image in images %}
+            {% for i in range(1, 4) %}
             <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
-                <img src="{{ image }}" alt="Image {{ loop.index }}">
+                <img src="{{ url_for('static', filename=i|string + '.jpg') }}" alt="Image {{ loop.index }}">
             </div>
             {% endfor %}
         </div>

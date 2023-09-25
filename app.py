@@ -45,7 +45,6 @@ def register():
         role = request.form.get("role")
         usernameCheck = db.execute("SELECT * FROM users WHERE username = ?;", username)
         
-        #Couple of checks on the fields if they are empty
         if not username:
             flash("Please provide a username", "error")
             return redirect("/register")
@@ -84,12 +83,10 @@ def login():
       username = request.form.get("username")
       password = request.form.get("password")
     
-      #Check if user doesn't input anything
       if username == "" or password == "":
           flash("Provide username or password", "error")
           return redirect("/login")
       
-      #retrive user data to check if there's a user with the provided username
       userdata = db.execute("SELECT * FROM users WHERE username = ?", username)
       if len(userdata) == 0:
           flash("Username is incorrect", "error")
@@ -97,7 +94,7 @@ def login():
       
 
       password_hash = userdata[0]["PWhash"]
-      #Checks the stores hash value in the table aganist the password provided
+     
       if check_password_hash(password_hash, password) is False:
           flash("Incorrect Password", "error")
           return redirect("/login")
@@ -219,23 +216,37 @@ def add_order():
         flash("Order placed successfully.")
         return redirect("/orders")
     else:
-
-        customer = db.execute("SELECT * FROM customer WHERE userid = ?", session["userid"])
-        currentOrders = db.execute("SELECT * FROM orders JOIN food ON orders.foodid = food.id WHERE orders.Status = 'Not Ready' AND orders.customerid = ?", customer[0]["id"])
-        return render_template("orders.html", currentOrders=currentOrders)
+        if session["userRole"] == "Customer":
+          customer = db.execute("SELECT * FROM customer WHERE userid = ?", session["userid"])
+          currentOrders = db.execute("SELECT * FROM orders JOIN food ON orders.foodid = food.id WHERE orders.Status = 'Not Ready' AND orders.customerid = ?", customer[0]["id"])
+          return render_template("orders.html", currentOrders=currentOrders)
+        else:
+          supplier = db.execute("SELECT * FROM supplier WHERE usersid = ?", session["userid"])
+          currentOrders = db.execute("SELECT * FROM orders JOIN food ON orders.foodid = food.id WHERE orders.Status = 'Not Ready' AND orders.supplierid = ?", supplier[0]["id"])
+          return render_template("orders.html", currentOrders=currentOrders)
 
     
-@app.route('/orders_status', methods = ["POST"])
+@app.route('/requested_orders', methods = ["POST"])
 def method_name():
     
-    itemId = request.form.get("item_id")
-    db.execute("UPDATE orders SET Status = 'Ready' WHERE id = ?", itemId)
+    itemId = int(request.form.get("item_id2"))
+    db.execute("UPDATE orders SET Status = 'Ready' WHERE foodid = ?", itemId)
     return redirect("/orders")
     
 @app.route('/history')
 def show_history():
     if session["userRole"] == "Customer":
-        history = db.execute("SELECT food.*, orders.Status FROM orders JOIN food ON orders.foodid = food.id WHERE orders.customerid = ? AND orders.Status = 'Ready'", session["userid"])
-        return render_template("history.html", history=history)
+     customerid = db.execute("SELECT id FROM customer WHERE userid = ?", session["userid"])
+     history = db.execute("""SELECT food.* FROM food JOIN orders ON food.id = orders.foodid WHERE orders.customerid = ? 
+      AND orders.Status = 'Ready'
+      """, customerid[0]['id'])        
+     return render_template("history.html", history=history, ItConverts = ItConverts)
     else:
         return apology("Access denied")
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+
+
+

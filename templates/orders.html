@@ -6,30 +6,35 @@ Orders
 
 {% block main %}
 {% if session["userRole"] == "Supplier" %}
-<div class="row">
-    <div class="leftcolumn" onclick="location.href='/profile'">
-        <div class="item">
-            Menu
-        </div>
-        <div class="item"onclick="location.href='/orders'">Current orders</div>
+<div class="container">
+    <div class="leftcolumn">
+              
+        <div class="item" onclick="location.href='/profile'">Menu</div>
+        <div class="item" onclick="location.href='/orders'">Current orders</div>
+    </div>
+    
         {% for item in currentOrders %}
         {% if item["Status"] == "Not Ready" %}
-        <div class="content">
+        <div class="row">
+          <div class="middlecolumn">
+              <div class="content">
            
-           <h1 class="display">{{ item["Title"] }}</h1>
+               <h1 class="display">{{ item["Title"] }}</h1>
 
-           <img src="{{ item['img_path'] }}" alt="{{ item['Title'] }}" style="height: 300px; width: auto; display: block; margin: 0 auto;">
+               <img src="{{ item['img_path'] }}" alt="{{ item['Title'] }}" style="height: 300px; width: auto; display: block; margin: 0 auto;">
            
-           <p>{{ item["Description"] }}</p>
+               <p>{{ item["Description"] }}</p>
            
-           <p>Status: {{ item["Status"] }}</p>
+               <p>Status: {{ item["Status"] }}</p>
            
-           <form action="/orders_status" method="post">
-               <input type="hidden" name="item_id" value="{{ item['id'] }}">
-               <button type="submit" class="btn btn-success">Ready</button>
-           </form>
-           
-         </div>
+               <form action="/requested_orders" method="post">
+                   <input type="hidden" name="item_id2" value="{{ item['id'] }}">
+                   <button type="submit" class="btn btn-success">Ready</button>
+               </form>
+              </div>
+          </div>
+        </div>
+</div>
          {% endif %}
        {% endfor %}
         {% else %}

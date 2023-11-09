@@ -153,7 +153,9 @@ def show_profile():
         meals = db.execute("SELECT * FROM food WHERE supplierid = ?", supplier_id)
         return render_template("profile.html", meals=meals, ItConverts = ItConverts)
     else:
+       
         itemToDelete = request.form.get("item_id")
+        print("here", itemToDelete)
         db.execute("DELETE FROM food WHERE id = ?", itemToDelete)
         return redirect("/profile")
 
@@ -183,10 +185,6 @@ def newitem():
         
         newItemId = db.execute("SELECT id FROM food WHERE Title = ? AND Description = ?", itemTitle, itemDescription)[0]["id"]
 
-        
-        # Debugging print statement
-        print("Newly inserted item ID:", newItemId)
-        print(newItemId)
         UploadIMG(itemImg, newItemId)
         return redirect("/profile")
 

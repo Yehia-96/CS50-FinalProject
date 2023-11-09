@@ -155,7 +155,6 @@ def show_profile():
     else:
        
         itemToDelete = request.form.get("item_id")
-        print("here", itemToDelete)
         db.execute("DELETE FROM food WHERE id = ?", itemToDelete)
         return redirect("/profile")
 

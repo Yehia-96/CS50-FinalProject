@@ -1,12 +1,10 @@
-/* Background color for the body */
 #body {
-  background-color: #FFD700; /* Gold */
+  background-color: #FFD700; 
   padding: 10px;
 }
 
-/* Background color for the left column */
 .leftcolumn {
-  background-color: #F4A460; /* Sandy Brown */
+  background-color: #F4A460; 
   padding: 20px;
   margin-left: 15px;
   border-radius: 10px;
@@ -15,7 +13,6 @@
   left: 20px;
 }
 
-/* Background color for items in the left column */
 .leftcolumn .item {
   padding: 15px 20px;
   border: none;
@@ -26,8 +23,13 @@
   text-align: left;
   margin-bottom: 5px;
 }
-
-/* Background color for the middle column */
+.logo {
+  background-color: #ff6f61; 
+  color: #fff; 
+  padding: 20px; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
 .middlecolumn {
   width: 80%;
   margin: 0 auto;
@@ -36,27 +38,24 @@
   flex-direction: column;
 }
 
-/* Background color for the image section in the middle column */
 .middlecolumn .img {
-  background-color: #D2691E; /* Chocolate */
+  background-color: #D2691E; 
   padding: 20px;
   margin-top: 20px;
   margin-bottom: 20px;
   width: 100%;
 }
 
-/* Background color for the content section */
 .content {
   width: 60%;
-  background-color: #F4A460; /* Sandy Brown */
+  background-color: #F4A460; 
   margin-top: 1%;
   padding: 20px;
   text-align: left;
 }
 
-/* Background color for flash messages */
 .flash-message {
-  background-color: #FF6347; /* Tomato */
+  background-color: #FF6347; 
   color: #FFF;
   padding: 10px;
   border-radius: 4px;
@@ -65,12 +64,10 @@
   margin: auto;
 }
 
-/* Background color for error flash messages */
 .flash-message.error {
-  background-color: #B22222; /* Fire Brick */
+  background-color: #B22222; 
 }
 
-/* Background color for success flash messages */
 .flash-message.success {
-  background-color: #32CD32; /* Lime Green */
+  background-color: #32CD32; 
 }
